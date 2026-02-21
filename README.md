@@ -1,31 +1,33 @@
-<h1 align="center">💳 CC Generator</h1>
+# 💳 Gerador de Cartões
+
 <p align="center">
-  <p align="center">
-    <i>A modern credit card generator with advanced BIN support and fake user details generator for educational and testing purposes</i>
-    <br />
-    <a href="https://github.com/avipatilpro/CC_Gen/issues"><b>Report a Bug</b></a>
-    |
-    <a href="https://github.com/avipatilpro/CC_Gen/issues"><b>Request Feature</b></a>
-  </p>
+  <i>Gerador de números de cartão de crédito e dados de usuários fictícios para fins educacionais e de teste</i>
 </p>
-<br>
-
-- **BIN Support**: Enter custom Bank Identification Numbers (4-16 digits) with auto card type detection
-- **Batch Generation**: Generate 1-100 mathematically valid cards using Luhn algorithm
-- **Modern UI**: Material Design interface with responsive layout and smooth animations
-- **Advanced Options**: Include CVV, expiry dates, random names with pipe format output
-- **Fake User Generator**: Generate realistic user details using external API with multiple formats
-
-## 📄 License
-
-This project is licensed under the MIT License.
 
 ---
 
-<div align="center">
+## ✨ Funcionalidades
 
-**⭐ Star this repo if you found it helpful!**
+- **Suporte a BIN**: Insira BIN personalizado (4-16 dígitos) com detecção automática da bandeira
+- **Geração em lote**: Gere de 1 a 10.000 cartões matematicamente válidos (algoritmo de Luhn)
+- **CVV personalizado**: Use um CVV fixo ou deixe gerar aleatoriamente
+- **Sem duplicatas**: Garantia de que nenhum número de cartão será repetido
+- **Interface moderna**: Tema escuro, design intuitivo e responsivo
+- **Formato de saída**: Detalhado ou Pipe (cc|mm|ano|cvv) com ano completo
+- **Gerador de usuários**: Dados fictícios realistas via API externa
 
-Made with ❤️ by [Avishkar Patil](https://github.com/avipatilpro)
+## 🚀 Como usar
 
-</div>
+1. Clone ou baixe o repositório
+2. Abra o arquivo `index.html` no navegador
+3. Ou hospede no GitHub Pages para acesso online
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT.
+
+---
+
+<p align="center">
+  Feito com ❤️ por <strong>AdventuresBr</strong>
+</p>
