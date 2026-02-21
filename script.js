@@ -75,9 +75,14 @@ class CCGenerator {
         this.clearBtn.addEventListener('click', () => this.clearResults());
         
         // Organizer
-        this.organizerBtn.addEventListener('click', () => this.handleOrganize());
-        this.copyOrganizerBtn.addEventListener('click', () => this.copyOrganizerResults());
-        this.clearOrganizerBtn.addEventListener('click', () => this.clearOrganizerResults());
+        if (this.organizerBtn) {
+            this.organizerBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleOrganize();
+            });
+        }
+        if (this.copyOrganizerBtn) this.copyOrganizerBtn.addEventListener('click', () => this.copyOrganizerResults());
+        if (this.clearOrganizerBtn) this.clearOrganizerBtn.addEventListener('click', () => this.clearOrganizerResults());
         
         // User Generator
         this.userForm.addEventListener('submit', (e) => this.handleUserSubmit(e));
@@ -417,6 +422,8 @@ class CCGenerator {
 
     // Organizer Methods
     handleOrganize() {
+        if (!this.organizerInput || !this.organizerResults) return;
+        
         const input = this.organizerInput.value.trim();
         if (!input) {
             this.showToast('Cole os cartões para organizar', 'error');
@@ -426,7 +433,7 @@ class CCGenerator {
         const lines = input.split(/\r?\n/);
         const cleanedCards = [];
         const seen = new Set();
-        const pipeRegex = /(\d{13,19})\|(\d{1,2})\|(\d{2,4})\|(\d{3,4})/;
+        const pipeRegex = /(\d{13,19})\s*\|\s*(\d{1,2})\s*\|\s*(\d{2,4})\s*\|\s*(\d{3,4})/;
 
         lines.forEach(line => {
             const trimmed = line.trim();
@@ -449,6 +456,7 @@ class CCGenerator {
     }
 
     displayOrganizerResults(cards) {
+        if (!this.organizerResults) return;
         this.organizerResults.innerHTML = '';
 
         if (cards.length === 0) {
@@ -468,10 +476,10 @@ class CCGenerator {
             });
         }
 
-        this.organizerCountSpan.textContent = cards.length;
-        this.organizerStats.style.display = cards.length > 0 ? 'inline' : 'none';
-        this.copyOrganizerBtn.disabled = cards.length === 0;
-        this.clearOrganizerBtn.disabled = cards.length === 0;
+        if (this.organizerCountSpan) this.organizerCountSpan.textContent = cards.length;
+        if (this.organizerStats) this.organizerStats.style.display = cards.length > 0 ? 'inline' : 'none';
+        if (this.copyOrganizerBtn) this.copyOrganizerBtn.disabled = cards.length === 0;
+        if (this.clearOrganizerBtn) this.clearOrganizerBtn.disabled = cards.length === 0;
     }
 
     copyOrganizerResults() {

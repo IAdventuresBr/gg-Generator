@@ -15,12 +15,27 @@
 - **Interface moderna**: Tema escuro, design intuitivo e responsivo
 - **Formato de saída**: Detalhado ou Pipe (cc|mm|ano|cvv) com ano completo
 - **Gerador de usuários**: Dados fictícios realistas via API externa
+- **Organizar**: Limpa cartões com texto extra, extraindo apenas o formato número|mês|ano|cvv
 
 ## 🚀 Como usar
 
 1. Clone ou baixe o repositório
 2. Abra o arquivo `index.html` no navegador
 3. Ou hospede no GitHub Pages para acesso online
+
+## 📤 Atualizar no GitHub
+
+Execute o script para enviar as alterações automaticamente:
+
+```powershell
+.\atualizar.ps1
+```
+
+Ou com mensagem personalizada:
+
+```powershell
+.\atualizar.ps1 -m "Sua mensagem de commit"
+```
 
 ## 📄 Licença
 
