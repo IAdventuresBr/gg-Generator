@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Cartões</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">
+                <span class="material-icons">credit_card</span>
+                Gerador de Cartões
+            </h1>
+            <p class="subtitle">Gere números de cartão e dados de teste</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="cc-gen">
+                <span class="material-icons">credit_card</span>
+                Cartões
+            </button>
+            <button class="tab-btn" data-tab="user-gen">
+                <span class="material-icons">person</span>
+                Usuários
+            </button>
+        </div>
+
+        <main class="main-content">
+            <div id="cc-gen" class="tab-content active">
+                <div class="generator-section">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="generatorForm" class="form">
+                                <section class="form-section">
+                                    <h3 class="section-title">1. Número do cartão</h3>
+                                    <div class="form-row form-row-wide">
+                                        <div class="form-group">
+                                            <label for="binInput" class="form-label">BIN (primeiros dígitos)</label>
+                                            <input type="text" id="binInput" class="form-input" placeholder="Ex: 4532 — vazio = aleatório" maxlength="16">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cardType" class="form-label">Bandeira</label>
+                                            <select id="cardType" class="form-select">
+                                                <option value="auto">Auto</option>
+                                                <option value="visa">Visa</option>
+                                                <option value="mastercard">Mastercard</option>
+                                                <option value="amex">Amex</option>
+                                                <option value="discover">Discover</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="form-section">
+                                    <h3 class="section-title">2. Quantidade e validade</h3>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="quantity" class="form-label">Quantos gerar?</label>
+                                            <input type="number" id="quantity" class="form-input" value="10" min="1" max="10000" placeholder="1–10000">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="expMonth" class="form-label">Mês</label>
+                                            <select id="expMonth" class="form-select">
+                                                <option value="random">Aleatório</option>
+                                                <option value="01">01</option>
+                                                <option value="02">02</option>
+                                                <option value="03">03</option>
+                                                <option value="04">04</option>
+                                                <option value="05">05</option>
+                                                <option value="06">06</option>
+                                                <option value="07">07</option>
+                                                <option value="08">08</option>
+                                                <option value="09">09</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="expYear" class="form-label">Ano</label>
+                                            <select id="expYear" class="form-select">
+                                                <option value="random">Aleatório</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="form-section">
+                                    <h3 class="section-title">3. CVV e formato</h3>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="customCvv" class="form-label">CVV fixo</label>
+                                            <input type="text" id="customCvv" class="form-input" placeholder="Vazio = aleatório" maxlength="4" pattern="[0-9]*" inputmode="numeric">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="outputFormat" class="form-label">Formato de saída</label>
+                                            <select id="outputFormat" class="form-select">
+                                                <option value="detailed">Detalhado</option>
+                                                <option value="pipe">Pipe (cc|mm|aa|cvv)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" id="detailedOptions">
+                                        <div class="checkbox-group checkbox-inline">
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" id="includeExpiry" checked>
+                                                <span class="checkmark"></span>
+                                                Validade
+                                            </label>
+                                            <label class="checkbox-label">
+                                                <input type="checkbox" id="includeNames">
+                                                <span class="checkmark"></span>
+                                                Nomes
+                                            </label>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <button type="submit" class="btn btn-primary btn-large">
+                                    <span class="material-icons">generating_tokens</span>
+                                    Gerar cartões
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-section">
+                    <div class="card card-results">
+                        <div class="results-header">
+                            <h2>Resultados</h2>
+                            <div class="results-actions">
+                                <span id="stats" class="stats-inline" style="display: none;">
+                                    <strong id="generatedCount">0</strong> gerados · <strong id="validCount">0</strong> válidos
+                                </span>
+                                <div class="btn-group">
+                                    <button id="copyBtn" class="btn btn-secondary btn-sm" disabled>
+                                        <span class="material-icons">content_copy</span>
+                                        Copiar
+                                    </button>
+                                    <button id="clearBtn" class="btn btn-secondary btn-sm" disabled>
+                                        <span class="material-icons">clear</span>
+                                        Limpar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="results" class="results-container">
+                                <div class="empty-state">
+                                    <span class="material-icons">credit_card_off</span>
+                                    <p>Nenhum cartão gerado</p>
+                                    <p class="empty-subtitle">Preencha o formulário e clique em "Gerar cartões"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="user-gen" class="tab-content">
+                <div class="generator-section">
+                    <div class="card">
+                        <div class="card-body">
+                            <form id="userGeneratorForm" class="form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="userQuantity" class="form-label">Quantidade</label>
+                                        <input type="number" id="userQuantity" class="form-input" value="5" min="1" max="50">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="userGender" class="form-label">Gênero</label>
+                                        <select id="userGender" class="form-select">
+                                            <option value="random">Aleatório</option>
+                                            <option value="male">Masculino</option>
+                                            <option value="female">Feminino</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="userNationality" class="form-label">Nacionalidade</label>
+                                        <select id="userNationality" class="form-select">
+                                            <option value="US">Estados Unidos</option>
+                                            <option value="GB">Reino Unido</option>
+                                            <option value="CA">Canadá</option>
+                                            <option value="AU">Austrália</option>
+                                            <option value="DE">Alemanha</option>
+                                            <option value="FR">França</option>
+                                            <option value="IN">Índia</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-large">
+                                    <span class="material-icons">person_add</span>
+                                    Gerar usuários
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-section">
+                    <div class="card card-results">
+                        <div class="results-header">
+                            <h2>Resultados</h2>
+                            <div class="btn-group">
+                                <button id="copyUserBtn" class="btn btn-secondary btn-sm" disabled>
+                                    <span class="material-icons">content_copy</span>
+                                    Copiar
+                                </button>
+                                <button id="clearUserBtn" class="btn btn-secondary btn-sm" disabled>
+                                    <span class="material-icons">clear</span>
+                                    Limpar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="userResults" class="results-container">
+                                <div class="empty-state">
+                                    <span class="material-icons">person_off</span>
+                                    <p>Nenhum usuário gerado</p>
+                                    <p class="empty-subtitle">Clique em "Gerar usuários" para começar</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 Gerador de Cartões — Apenas para fins educacionais</p>
+        </footer>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
