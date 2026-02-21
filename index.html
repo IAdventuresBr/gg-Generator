@@ -23,6 +23,10 @@
                 <span class="material-icons">credit_card</span>
                 Cartões
             </button>
+            <button class="tab-btn" data-tab="organizer">
+                <span class="material-icons">cleaning_services</span>
+                Organizar
+            </button>
             <button class="tab-btn" data-tab="user-gen">
                 <span class="material-icons">person</span>
                 Usuários
@@ -155,6 +159,57 @@
                                     <span class="material-icons">credit_card_off</span>
                                     <p>Nenhum cartão gerado</p>
                                     <p class="empty-subtitle">Preencha o formulário e clique em "Gerar cartões"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="organizer" class="tab-content">
+                <div class="generator-section">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form">
+                                <div class="form-group">
+                                    <label for="organizerInput" class="form-label">Cole os cartões com texto extra</label>
+                                    <textarea id="organizerInput" class="form-input form-textarea" rows="8" placeholder="Ex: 5522891104485578|08|2028|789, [LIVE] VBV OK [ Your One-time Passcode has been sent ]&#10;4532123456789012|12|2026|123, [DEAD]&#10;..."></textarea>
+                                    <div class="form-help">Cada linha será processada. Será extraído apenas o formato: número|mês|ano|cvv</div>
+                                </div>
+                                <button type="button" id="organizerBtn" class="btn btn-primary btn-large">
+                                    <span class="material-icons">filter_alt</span>
+                                    Organizar e limpar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="results-section">
+                    <div class="card card-results">
+                        <div class="results-header">
+                            <h2>Cartões limpos</h2>
+                            <div class="results-actions">
+                                <span id="organizerStats" class="stats-inline" style="display: none;">
+                                    <strong id="organizerCount">0</strong> cartões extraídos
+                                </span>
+                                <div class="btn-group">
+                                    <button id="copyOrganizerBtn" class="btn btn-secondary btn-sm" disabled>
+                                        <span class="material-icons">content_copy</span>
+                                        Copiar
+                                    </button>
+                                    <button id="clearOrganizerBtn" class="btn btn-secondary btn-sm" disabled>
+                                        <span class="material-icons">clear</span>
+                                        Limpar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="organizerResults" class="results-container">
+                                <div class="empty-state">
+                                    <span class="material-icons">cleaning_services</span>
+                                    <p>Nenhum cartão processado</p>
+                                    <p class="empty-subtitle">Cole os dados e clique em "Organizar e limpar"</p>
                                 </div>
                             </div>
                         </div>

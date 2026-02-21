@@ -48,6 +48,15 @@ class CCGenerator {
         this.copyUserBtn = document.getElementById('copyUserBtn');
         this.clearUserBtn = document.getElementById('clearUserBtn');
         
+        // Organizer elements
+        this.organizerInput = document.getElementById('organizerInput');
+        this.organizerBtn = document.getElementById('organizerBtn');
+        this.organizerResults = document.getElementById('organizerResults');
+        this.organizerStats = document.getElementById('organizerStats');
+        this.organizerCountSpan = document.getElementById('organizerCount');
+        this.copyOrganizerBtn = document.getElementById('copyOrganizerBtn');
+        this.clearOrganizerBtn = document.getElementById('clearOrganizerBtn');
+        
         this.toast = document.getElementById('toast');
     }
 
@@ -64,6 +73,11 @@ class CCGenerator {
         this.outputFormatSelect.addEventListener('change', () => this.handleFormatChange());
         this.copyBtn.addEventListener('click', () => this.copyResults());
         this.clearBtn.addEventListener('click', () => this.clearResults());
+        
+        // Organizer
+        this.organizerBtn.addEventListener('click', () => this.handleOrganize());
+        this.copyOrganizerBtn.addEventListener('click', () => this.copyOrganizerResults());
+        this.clearOrganizerBtn.addEventListener('click', () => this.clearOrganizerResults());
         
         // User Generator
         this.userForm.addEventListener('submit', (e) => this.handleUserSubmit(e));
@@ -399,6 +413,92 @@ class CCGenerator {
         this.copyBtn.disabled = true;
         this.clearBtn.disabled = true;
         this.showToast('Resultados limpos');
+    }
+
+    // Organizer Methods
+    handleOrganize() {
+        const input = this.organizerInput.value.trim();
+        if (!input) {
+            this.showToast('Cole os cartões para organizar', 'error');
+            return;
+        }
+
+        const lines = input.split(/\r?\n/);
+        const cleanedCards = [];
+        const seen = new Set();
+        const pipeRegex = /(\d{13,19})\|(\d{1,2})\|(\d{2,4})\|(\d{3,4})/;
+
+        lines.forEach(line => {
+            const trimmed = line.trim();
+            if (!trimmed) return;
+
+            const match = trimmed.match(pipeRegex);
+            if (match) {
+                const [, number, month, year, cvv] = match;
+                const monthPadded = month.padStart(2, '0');
+                const cleanLine = `${number}|${monthPadded}|${year}|${cvv}`;
+                if (!seen.has(cleanLine)) {
+                    seen.add(cleanLine);
+                    cleanedCards.push(cleanLine);
+                }
+            }
+        });
+
+        this.displayOrganizerResults(cleanedCards);
+        this.showToast(`${cleanedCards.length} cartões extraídos e organizados`);
+    }
+
+    displayOrganizerResults(cards) {
+        this.organizerResults.innerHTML = '';
+
+        if (cards.length === 0) {
+            this.organizerResults.innerHTML = `
+                <div class="empty-state">
+                    <span class="material-icons">search_off</span>
+                    <p>Nenhum cartão no formato válido encontrado</p>
+                    <p class="empty-subtitle">Use o formato: número|mês|ano|cvv</p>
+                </div>
+            `;
+        } else {
+            cards.forEach(card => {
+                const item = document.createElement('div');
+                item.className = 'card-item';
+                item.innerHTML = `<div class="pipe-format">${card}</div>`;
+                this.organizerResults.appendChild(item);
+            });
+        }
+
+        this.organizerCountSpan.textContent = cards.length;
+        this.organizerStats.style.display = cards.length > 0 ? 'inline' : 'none';
+        this.copyOrganizerBtn.disabled = cards.length === 0;
+        this.clearOrganizerBtn.disabled = cards.length === 0;
+    }
+
+    copyOrganizerResults() {
+        const items = this.organizerResults.querySelectorAll('.pipe-format');
+        if (items.length === 0) return;
+
+        const text = Array.from(items).map(el => el.textContent).join('\n');
+        navigator.clipboard.writeText(text).then(() => {
+            this.showToast('Copiado para a área de transferência!');
+        }).catch(() => {
+            this.showToast('Falha ao copiar', 'error');
+        });
+    }
+
+    clearOrganizerResults() {
+        this.organizerInput.value = '';
+        this.organizerResults.innerHTML = `
+            <div class="empty-state">
+                <span class="material-icons">cleaning_services</span>
+                <p>Nenhum cartão processado</p>
+                <p class="empty-subtitle">Cole os dados e clique em "Organizar e limpar"</p>
+            </div>
+        `;
+        this.organizerStats.style.display = 'none';
+        this.copyOrganizerBtn.disabled = true;
+        this.clearOrganizerBtn.disabled = true;
+        this.showToast('Área limpa');
     }
 
     // User Generator Methods

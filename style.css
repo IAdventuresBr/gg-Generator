@@ -234,6 +234,12 @@ html {
     color: #64748b;
 }
 
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+    font-family: 'Courier New', monospace;
+}
+
 .form-input:focus,
 .form-select:focus {
     outline: none;
