@@ -67,27 +67,31 @@ class CCGenerator {
         });
         
         // CC Generator
-        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
-        this.binInput.addEventListener('input', () => this.handleBinInput());
-        this.customCvvInput.addEventListener('input', () => this.handleCvvInput());
-        this.outputFormatSelect.addEventListener('change', () => this.handleFormatChange());
-        this.copyBtn.addEventListener('click', () => this.copyResults());
-        this.clearBtn.addEventListener('click', () => this.clearResults());
+        if (this.form) this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+        if (this.binInput) this.binInput.addEventListener('input', () => this.handleBinInput());
+        if (this.customCvvInput) this.customCvvInput.addEventListener('input', () => this.handleCvvInput());
+        if (this.outputFormatSelect) this.outputFormatSelect.addEventListener('change', () => this.handleFormatChange());
+        if (this.copyBtn) this.copyBtn.addEventListener('click', () => this.copyResults());
+        if (this.clearBtn) this.clearBtn.addEventListener('click', () => this.clearResults());
         
-        // Organizer
-        if (this.organizerBtn) {
-            this.organizerBtn.addEventListener('click', (e) => {
+        // Organizer - delegacao de eventos para garantir funcionamento
+        document.body.addEventListener('click', (e) => {
+            if (e.target.closest('#organizerBtn')) {
                 e.preventDefault();
                 this.handleOrganize();
-            });
-        }
-        if (this.copyOrganizerBtn) this.copyOrganizerBtn.addEventListener('click', () => this.copyOrganizerResults());
-        if (this.clearOrganizerBtn) this.clearOrganizerBtn.addEventListener('click', () => this.clearOrganizerResults());
+            } else if (e.target.closest('#copyOrganizerBtn')) {
+                e.preventDefault();
+                this.copyOrganizerResults();
+            } else if (e.target.closest('#clearOrganizerBtn')) {
+                e.preventDefault();
+                this.clearOrganizerResults();
+            }
+        });
         
         // User Generator
-        this.userForm.addEventListener('submit', (e) => this.handleUserSubmit(e));
-        this.copyUserBtn.addEventListener('click', () => this.copyUserResults());
-        this.clearUserBtn.addEventListener('click', () => this.clearUserResults());
+        if (this.userForm) this.userForm.addEventListener('submit', (e) => this.handleUserSubmit(e));
+        if (this.copyUserBtn) this.copyUserBtn.addEventListener('click', () => this.copyUserResults());
+        if (this.clearUserBtn) this.clearUserBtn.addEventListener('click', () => this.clearUserResults());
     }
 
     switchTab(tabId) {
@@ -666,5 +670,5 @@ class CCGenerator {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    new CCGenerator();
+    window.ccGenerator = new CCGenerator();
 });

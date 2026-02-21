@@ -176,7 +176,7 @@
                                     <textarea id="organizerInput" class="form-input form-textarea" rows="8" placeholder="Ex: 5522891104485578|08|2028|789, [LIVE] VBV OK [ Your One-time Passcode has been sent ]&#10;4532123456789012|12|2026|123, [DEAD]&#10;..."></textarea>
                                     <div class="form-help">Cada linha será processada. Será extraído apenas o formato: número|mês|ano|cvv</div>
                                 </div>
-                                <button type="button" id="organizerBtn" class="btn btn-primary btn-large">
+                                <button type="button" id="organizerBtn" class="btn btn-primary btn-large" onclick="if(window.ccGenerator)window.ccGenerator.handleOrganize()">
                                     <span class="material-icons">filter_alt</span>
                                     Organizar e limpar
                                 </button>
@@ -193,11 +193,11 @@
                                     <strong id="organizerCount">0</strong> cartões extraídos
                                 </span>
                                 <div class="btn-group">
-                                    <button id="copyOrganizerBtn" class="btn btn-secondary btn-sm" disabled>
+                                    <button id="copyOrganizerBtn" class="btn btn-secondary btn-sm" disabled onclick="if(window.ccGenerator)window.ccGenerator.copyOrganizerResults()">
                                         <span class="material-icons">content_copy</span>
                                         Copiar
                                     </button>
-                                    <button id="clearOrganizerBtn" class="btn btn-secondary btn-sm" disabled>
+                                    <button id="clearOrganizerBtn" class="btn btn-secondary btn-sm" disabled onclick="if(window.ccGenerator)window.ccGenerator.clearOrganizerResults()">
                                         <span class="material-icons">clear</span>
                                         Limpar
                                     </button>
